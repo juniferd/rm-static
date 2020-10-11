@@ -1,6 +1,7 @@
 import fs from  'fs';
 import path from 'path';
 import { useRouter } from 'next/router';
+import Link from '../../components/Link';
 import { NOTEBOOKS_DIR, getNotebookDirs} from './helpers';
 
 const Notebook = ({ content }) => {
@@ -10,6 +11,7 @@ const Notebook = ({ content }) => {
   return (
     <div>
       <h1>{name}</h1>
+      <p><Link href="/notebooks">&larr;</Link></p>
       {content[name].map(img => (
         <img src={img.content} width="600" />
       ))}

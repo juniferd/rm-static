@@ -1,12 +1,15 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Link from '../components/Link';
 
 export default function Home() {
   return (
-    <div>
+    <>
       <Head>
+        {/* TODO: fill this in */}
       </Head>
       <h1>test test</h1>
-    </div>
+      <p><Link href="/notebooks">notebooks</Link></p>
+      <p><Link href="/about">about</Link></p>
+    </>
   )
 }
