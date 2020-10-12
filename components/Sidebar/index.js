@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Link from '../Link';
 import {
   collapsedSidebarWidth,
   expandedSidebarWidth,
@@ -20,9 +21,19 @@ const Sidebar = ({
   collapsed,
   children,
   title,
+  links,
 }) => (
   <StyledSidebar collapsed={collapsed}>
     <h2>{title}</h2>
+    <ul>
+      {links.map(link => (
+        <li>
+          <Link href={link.href}>
+            {link.title}
+          </Link>
+        </li>
+      ))}
+    </ul>
     {children}
   </StyledSidebar>
 )

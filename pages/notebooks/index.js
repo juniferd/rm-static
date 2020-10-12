@@ -2,13 +2,13 @@ import fs from  'fs';
 import Link from '../../components/Link';
 import { NOTEBOOKS_DIR, getNotebookDirs } from '../../helpers';
 
-export default function Page ({ content }) {
+export default function Page ({ notebooks }) {
   return (
     <>
       <h1>Notebooks:</h1>
       <Link href="/">&larr;</Link>
       <ul>
-        {content.map(notebook => (
+        {notebooks.map(notebook => (
           <li><Link href={`/notebooks/${notebook}`}>{notebook}</Link></li>
         ))}
       </ul>
@@ -22,7 +22,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      content: NOTEBOOKS,
+      notebooks: NOTEBOOKS,
     },
   }
 }
