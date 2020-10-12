@@ -1,10 +1,10 @@
 import fs from  'fs';
 import Link from '../../components/Link';
-import { NOTEBOOKS_DIR, getNotebookDirs } from './helpers';
+import { NOTEBOOKS_DIR, getNotebookDirs } from '../../helpers';
 
 export default function Page ({ content }) {
   return (
-    <div>
+    <>
       <h1>Notebooks:</h1>
       <Link href="/">&larr;</Link>
       <ul>
@@ -12,7 +12,7 @@ export default function Page ({ content }) {
           <li><Link href={`/notebooks/${notebook}`}>{notebook}</Link></li>
         ))}
       </ul>
-    </div>
+    </>
   );
 }
 

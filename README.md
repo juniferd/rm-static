@@ -16,9 +16,9 @@ Remarkable tablet images generated using rmkit should be copied to `public/image
 |--components // shared components
 |  |--Button // presentational components w/ styles
 |  |-- ...
+|--helpers // shared helper methods
 |--pages // static nextjs pages
 |  |--about // template for about
-|  |  |--helpers.js
 |  |  |--index.js
 |  |--api // apis
 |  |-- ...

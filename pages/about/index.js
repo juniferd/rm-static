@@ -1,5 +1,10 @@
+import Link from '../../components/Link';
+
 export default function About() {
   return (
-    <div>something sensible here</div>
+    <>
+      <p><Link href="/">&larr;</Link></p>
+      <p>something sensible here</p>
+    </>
   );
 }
