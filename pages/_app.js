@@ -4,14 +4,13 @@ import Sidebar from '../components/Sidebar';
 
 function MyApp({ Component, pageProps }) {
   const links = [
-    { title: 'about', href: '/about' },
     { title: 'notebooks', href: '/notebooks' },
+    { title: 'about', href: '/about' },
   ];
 
   return (
     <>
       <Sidebar
-        title="O_O"
         links={links}
       />
       <Main collapsedSidebar={false}>

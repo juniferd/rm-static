@@ -1,12 +1,22 @@
 import styled from 'styled-components';
-import { collapsedSidebarWidth, expandedSidebarWidth, lgSpacing } from '../constants';
+import { mediaQuery } from '../mediaQueries';
+import {
+  collapsedSidebarWidth,
+  expandedSidebarWidth,
+  lgSpacing,
+} from '../constants';
 
-// TODO: media queries
 const StyledMain = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: ${props => props.collapsedSidebar ? collapsedSidebarWidth : expandedSidebarWidth};
   padding: 0 ${lgSpacing};
+  ${mediaQuery.mobile(`
+    margin-left: ${collapsedSidebarWidth};    
+  `)}
+  ${mediaQuery.tablet(`
+    margin-left: ${collapsedSidebarWidth};    
+  `)}
 `;
 
 const Main = ({ collapsedSidebar, children }) => (
