@@ -8,6 +8,7 @@ import {
 import { green } from '../colors';
 
 const StyledSidebar = styled.div`
+  background: white;
   display: flex;
   flex-direction: column;
   width: ${props => props.collapsed ? collapsedSidebarWidth : expandedSidebarWidth};

@@ -2,29 +2,23 @@ import '../styles/globals.css';
 import { Main } from '../components/Container';
 import Sidebar from '../components/Sidebar';
 
-function MyApp({ Component, pageProps, links }) {
+function MyApp({ Component, pageProps }) {
+  const links = [
+    { title: 'about', href: '/about' },
+    { title: 'notebooks', href: '/notebooks' },
+  ];
+
   return (
     <>
       <Sidebar
         title="O_O"
         links={links}
       />
-      <Main>
+      <Main collapsedSidebar={false}>
         <Component {...pageProps} />
       </Main>
     </>
   )
-}
-
-MyApp.getInitialProps = (ctx) => {
-  const links = [
-    { title: 'about', href: '/about' },
-    { title: 'notebooks', href: '/notebooks' },
-  ];
-
-  return {
-    links,
-  };
 }
 
 export default MyApp
