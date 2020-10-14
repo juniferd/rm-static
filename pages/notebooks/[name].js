@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import Link from '../../components/Link';
 import { NOTEBOOKS_DIR, getNotebookDirs} from '../../helpers';
 import { lgSpacing } from '../../components/constants';
+import { mediaQuery } from '../../components/mediaQueries';
 
 const Image = styled.div`
   background: white;
@@ -15,20 +16,26 @@ const Image = styled.div`
   box-shadow: 0 0 12px rgba(204, 143, 0, .1);
   position: relative;
   height: auto;
+  margin-bottom: ${lgSpacing};
+  &:not(:last-child) {
+    margin-right: ${lgSpacing};
+  }
   > img {
     width: 100%;
   }
+  ${mediaQuery.tablet(`
+    max-width: 100%;
+    width: 100%;
+    &:not(:last-child) {
+      margin-right: 0;
+    }
+  `)}
 `;
 const ImageContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  > * {
-    margin-bottom: ${lgSpacing};
-    &:not(:last-child) {
-      margin-right: ${lgSpacing};
-    }
-  }
+  justify-content: center;
 `;
 
 const Notebook = ({ content }) => {

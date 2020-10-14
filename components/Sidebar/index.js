@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import gsap from 'gsap';
 import styled from 'styled-components';
 import Link from '../Link';
@@ -7,18 +8,23 @@ import {
   collapsedSidebarWidth,
   expandedSidebarWidth,
   smSpacing,
+  mdSpacing,
   lgSpacing,
 } from '../constants';
 import { mediaQuery } from '../mediaQueries';
-import { blue, yellow, green } from '../colors';
+import {
+  blue,
+  lightBlue,
+  yellow,
+} from '../colors';
 
 const StyledSidebar = styled.div`
   background: white;
   display: flex;
   flex-direction: column;
   width: ${props => props.collapsed ? collapsedSidebarWidth : expandedSidebarWidth};
-  padding: ${lgSpacing} ${smSpacing};
-  background: ${green};
+  padding: ${lgSpacing} 0;
+  background: ${yellow};
   height: 100vh;
   position: fixed;
   > * {
@@ -26,15 +32,57 @@ const StyledSidebar = styled.div`
   }
   > ul {
     padding: 0;
-    margin: ${smSpacing} 0 0;
-    li {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 ${smSpacing};
-    }
   }
   ${mediaQuery.tablet(`
     width: ${collapsedSidebarWidth};    
+  `)}
+`;
+
+const LinkContainer = styled.li`
+  list-style: none;
+  padding: 0;
+  margin: 0 ${smSpacing} ${mdSpacing};
+  > * {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 16px;
+    color: rgba(255, 255, 255, .85);
+    &:hover {
+      color: white;
+    }
+    ${mediaQuery.tablet(`
+      justify-content: center;
+      background: #FFFE099;
+      height: 60px;
+      margin: 0;
+      padding: ${lgSpacing};
+      &:hover {
+        background: #FFDA85;
+      }
+    `)}
+  }
+
+  ${mediaQuery.tablet(`
+    margin: 0;
+    border-top: 1px solid rgba(255, 255, 255, .25);
+    &:last-child {
+      border-bottom: 1px solid rgba(255, 255, 255, .25);
+    }
+  `)}
+`;
+
+const LinkIcon = styled(FontAwesomeIcon)`
+  ${mediaQuery.tablet(`
+    font-size: 24px;
+  `)}
+`;
+
+
+const LinkTitle = styled.span`
+  margin-left: ${smSpacing};
+  ${mediaQuery.tablet(`
+    display: none;    
   `)}
 `;
 
@@ -45,10 +93,10 @@ const LogoContainer = styled.div`
 `;
 
 const Logo = styled(Disapproval)`
-  fill: ${yellow};
+  fill: ${lightBlue};
   width: 80px;
   ${mediaQuery.tablet(`
-    width: 40px;    
+    width: 40px;
   `)}
 `;
 
@@ -59,7 +107,7 @@ const Sidebar = ({
 }) => {
   useEffect(() => {
     gsap.from('.disapprovalLogo', {
-      duration: 100,
+      duration: 10,
       opacity: 0.25,
       ease: 'power2.inOut',
       yoyo: true,
@@ -76,11 +124,16 @@ const Sidebar = ({
       </LogoContainer>
       <ul>
         {links.map(link => (
-          <li>
+          <LinkContainer>
             <Link href={link.href}>
-              {link.title}
+              {link.icon ? (
+                <LinkIcon
+                  icon={link.icon}
+                />
+              ) : null}
+              <LinkTitle>{link.title}</LinkTitle>
             </Link>
-          </li>
+          </LinkContainer>
         ))}
       </ul>
       {children}

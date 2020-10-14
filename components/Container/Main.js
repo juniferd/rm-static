@@ -3,6 +3,7 @@ import { mediaQuery } from '../mediaQueries';
 import {
   collapsedSidebarWidth,
   expandedSidebarWidth,
+  smSpacing,
   lgSpacing,
 } from '../constants';
 
@@ -10,7 +11,7 @@ const StyledMain = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: ${props => props.collapsedSidebar ? collapsedSidebarWidth : expandedSidebarWidth};
-  padding: 0 ${lgSpacing};
+  padding: ${smSpacing} ${lgSpacing};
   ${mediaQuery.mobile(`
     margin-left: ${collapsedSidebarWidth};    
   `)}
