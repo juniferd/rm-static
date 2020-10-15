@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import fs from  'fs';
 import path from 'path';
 import gsap from 'gsap';
@@ -10,17 +11,20 @@ import { smSpacing, lgSpacing } from '../../components/constants';
 import { mediaQuery } from '../../components/mediaQueries';
 
 const SelectedImage = styled.div`
-  width: 100%;
-  height: 100%;
   position: fixed;
   left: 0;
+  right: 0;
   top: 0;
+  bottom: -100px;
+  padding-bottom: 100px;
   background: rgba(0, 0, 0, .85);
   z-index: 10;
-  display: flex;
+  display: ${props => props.showing ? 'flex' : 'none'};
+  opacity: 1;
   justify-content: center;
   align-items: center;
   > img {
+    display: block;
     background: white;
     max-height: calc(100vh - ${lgSpacing});
     height: auto;
@@ -38,16 +42,15 @@ const ImageContainer = styled.div`
   height: auto;
   margin: 0 ${smSpacing} ${lgSpacing};
   > img {
+    display: block;
     width: 100%;
   }
   ${mediaQuery.tablet(`
     max-width: 100%;
     width: 100%;
-    &:not(:last-child) {
-      margin-right: 0;
-    }
   `)}
 `;
+
 const Section = styled.div`
   display: flex;
   flex-direction: row;
@@ -60,6 +63,7 @@ const Notebook = ({ content }) => {
   const router = useRouter();
   const { name } = router.query;
   const [selectedImage, setSelectedImage] = useState(null);
+  const selectedImageRef = useRef();
 
   useEffect(() => {
     // TODO maybe use refs instead of global css class
@@ -74,30 +78,46 @@ const Notebook = ({ content }) => {
         each: 0.25,
       },
     });
+    return function cleanup() {
+      clearAllBodyScrollLocks();
+    }
   }, []);
+
+  const toggleSelectedImage = (img) => {
+    if (img === null) {
+      enableBodyScroll(selectedImageRef.current);
+    } else {
+      disableBodyScroll(selectedImageRef.current);
+      gsap.from(selectedImageRef.current, {
+        duration: .25,
+        opacity: 0,
+      });
+    }
+    setSelectedImage(img);
+  };
 
   return (
     <>
       <h1>{name}</h1>
       <p><Link href="/notebooks">&larr;</Link></p>
-      {!!selectedImage ? (
-        <SelectedImage
-          onClick={(_) => setSelectedImage(null)}
-        >
-          <img src={selectedImage} />
-        </SelectedImage>
-      ) : null}
       <Section>
-        {content[name].map(img => (
+        {content[decodeURIComponent(name)].map(img => (
           <ImageContainer
             className="notebookImage"
             key={img.filename}
-            onClick={(_) => setSelectedImage(img.content)}
+            onClick={(_) => toggleSelectedImage(img.content)}
           >
             <img src={img.content} />
           </ImageContainer>
         ))}
       </Section>
+      <SelectedImage
+        showing={!!selectedImage}
+        ref={selectedImageRef}
+        onClick={(_) => toggleSelectedImage(null)}
+      >
+        <img src={selectedImage} />
+      </SelectedImage>
     </>
   )
 }
@@ -132,8 +152,9 @@ export async function getStaticProps() {
 
 export async function getStaticPaths() {
   const NOTEBOOKS = getNotebookDirs(NOTEBOOKS_DIR, fs);
+  // TODO whyyyyyy
   const paths = NOTEBOOKS.map(name => {
-    return { params: { name } }
+    return { params: { name: process.env.NODE_ENV === 'development' ? encodeURIComponent(name) : name } }
   });
 
   return {

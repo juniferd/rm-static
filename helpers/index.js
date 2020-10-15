@@ -8,7 +8,3 @@ export const getNotebookDirs = (source, fs) => (
     .filter(dir => dir.isDirectory())
     .map(dir => dir.name)
 );
-
-export default function Test() {
-  return <></>
-};

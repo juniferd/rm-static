@@ -108,7 +108,6 @@ const Sidebar = ({
   useEffect(() => {
     gsap.from('.disapprovalLogo', {
       duration: 10,
-      opacity: 0.25,
       ease: 'power2.inOut',
       yoyo: true,
       repeat: -1,
@@ -124,7 +123,7 @@ const Sidebar = ({
       </LogoContainer>
       <ul>
         {links.map(link => (
-          <LinkContainer>
+          <LinkContainer key={`link-${link.title}`}>
             <Link href={link.href}>
               {link.icon ? (
                 <LinkIcon

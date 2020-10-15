@@ -1,7 +1,22 @@
+import { createGlobalStyle } from 'styled-components';
 import { faBookDead, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
-import '../styles/globals.css';
 import { Main } from '../components/Container';
 import Sidebar from '../components/Sidebar';
+
+const GlobalStyle = createGlobalStyle`
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-size: 14px;
+    background-color: #FFEEC2;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+`;
 
 function MyApp({ Component, pageProps }) {
   const links = [
@@ -11,6 +26,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
+      <GlobalStyle />
       <Sidebar
         links={links}
       />
