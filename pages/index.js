@@ -13,6 +13,7 @@ const MainImage = styled(Remarkable)`
 `;
 
 const Wrapper = styled.div`
+  overflow: hidden;
   width: 100%;
   min-height: 70vh;
   display: flex;
