@@ -19,6 +19,7 @@ import {
 } from '../colors';
 
 const StyledSidebar = styled.div`
+  z-index: 1;
   background: white;
   display: flex;
   flex-direction: column;
@@ -115,7 +116,7 @@ const Sidebar = ({
         fill: blue,
       }
     });
-  })
+  }, [])
   return (
     <StyledSidebar collapsed={collapsed}>
       <LogoContainer>
