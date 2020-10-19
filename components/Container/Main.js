@@ -12,12 +12,12 @@ const StyledMain = styled.div`
   flex-direction: column;
   margin-left: ${props => props.collapsedSidebar ? collapsedSidebarWidth : expandedSidebarWidth};
   padding: ${smSpacing} ${lgSpacing};
-  ${mediaQuery.mobile(`
+  ${mediaQuery.mobile`
     margin-left: ${collapsedSidebarWidth};    
-  `)}
-  ${mediaQuery.tablet(`
+  `}
+  ${mediaQuery.tablet`
     margin-left: ${collapsedSidebarWidth};    
-  `)}
+  `}
 `;
 
 const Main = ({ collapsedSidebar, children }) => (

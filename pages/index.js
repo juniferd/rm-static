@@ -2,11 +2,10 @@ import { useEffect } from 'react';
 import gsap from 'gsap';
 import styled from 'styled-components';
 import Remarkable from '../public/images/remarkable_notebooks.svg';
-import { gray } from '../components/colors';
 import Link from '../components/Link';
 
 const MainImage = styled(Remarkable)`
-  fill: ${gray};
+  fill: ${props => props.theme && props.theme.sidebarLogo};
   width: 50%;
   min-width: 300px;
   max-width: 500px;
@@ -30,6 +29,10 @@ const MaskContainer = styled.svg`
   left: -190px;
   top: -200px;
   transform: rotateZ(-45deg);
+`;
+
+const Mask = styled.rect`
+  fill: ${props => props.theme && props.theme.background};
 `;
 
 const SvgContainer = styled.div`
@@ -80,14 +83,13 @@ const Home = () => {
         <MaskContainer>
           {Array(5).fill(null).map((_, i) => {
             return (
-              <rect
+              <Mask
                 className="box"
                 key={`mask-${i}`}
                 x="0"
-                y={i*50}
+                y={(i*50) - (2*i)}
                 width="50"
                 height="50"
-                fill="#FFEEC2"
               />
             )
           })}

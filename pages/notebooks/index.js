@@ -10,10 +10,10 @@ const StyledList = styled.ul`
   > li {
     margin-bottom: ${xsSpacing};
     list-style: none;
-    ${mediaQuery.tablet(`
+    ${mediaQuery.tablet`
       margin-bottom: ${smSpacing}; 
       font-size: 1.25em;
-    `)}
+    `}
   }
 `;
 

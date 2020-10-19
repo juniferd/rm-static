@@ -1,3 +1,4 @@
+import { css } from 'styled-components';
 import {
   mobileBreakpoint,
   tabletBreakpoint,
@@ -30,6 +31,6 @@ const mediaQueries = media.map((mediaQuery, i) => {
 export const mediaQuery = Object.fromEntries(mediaQueries.map((mediaQuery, i) => {
   return [
     media[i].name,
-    (css) => `${mediaQuery} { ${css} }`,
+    (...args) => css`${mediaQuery} { ${css(...args)} }`,
   ];
 }));

@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
+import { css } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import gsap from 'gsap';
 import styled from 'styled-components';
 import Link from '../Link';
 import Disapproval from '../../public/images/disapproval.svg';
@@ -12,20 +11,14 @@ import {
   lgSpacing,
 } from '../constants';
 import { mediaQuery } from '../mediaQueries';
-import {
-  blue,
-  lightBlue,
-  yellow,
-} from '../colors';
 
 const StyledSidebar = styled.div`
   z-index: 1;
-  background: white;
   display: flex;
   flex-direction: column;
   width: ${props => props.collapsed ? collapsedSidebarWidth : expandedSidebarWidth};
   padding: ${lgSpacing} 0;
-  background: ${yellow};
+  background: ${props => props.theme && props.theme.sidebarBackground};
   height: 100vh;
   position: fixed;
   > * {
@@ -34,9 +27,20 @@ const StyledSidebar = styled.div`
   > ul {
     padding: 0;
   }
-  ${mediaQuery.tablet(`
+  ${mediaQuery.tablet`
     width: ${collapsedSidebarWidth};    
-  `)}
+  `}
+`;
+
+const LinkContainerTablet = css`
+  justify-content: center;
+  background: ${props => props.theme && props.theme.sidebarLinkBackground};
+  height: 60px;
+  margin: 0;
+  padding: ${lgSpacing};
+  &:hover {
+    background: ${props => props.theme && props.theme.sidebarLinkBackgroundHover};
+  }
 `;
 
 const LinkContainer = styled.li`
@@ -48,43 +52,40 @@ const LinkContainer = styled.li`
     align-items: center;
     text-decoration: none;
     font-size: 16px;
-    color: rgba(255, 255, 255, .85);
-    &:hover {
-      color: white;
+    color: ${props => props.theme && props.theme.sidebarLink};
+    &:active {
+      color: ${props => props.theme && props.theme.sidebarLinkActive};
     }
-    ${mediaQuery.tablet(`
-      justify-content: center;
-      background: #FFFE099;
-      height: 60px;
-      margin: 0;
-      padding: ${lgSpacing};
-      &:hover {
-        background: #FFDA85;
-      }
-    `)}
+    &:visited {
+      color: ${props => props.theme && props.theme.sidebarLinkVisited};
+    }
+    &:hover {
+      color: ${props => props.theme && props.theme.sidebarLinkHover};
+    }
+    ${mediaQuery.tablet`${LinkContainerTablet}`}
   }
 
-  ${mediaQuery.tablet(`
+  ${mediaQuery.tablet`
     margin: 0;
     border-top: 1px solid rgba(255, 255, 255, .25);
     &:last-child {
       border-bottom: 1px solid rgba(255, 255, 255, .25);
     }
-  `)}
+  `}
 `;
 
 const LinkIcon = styled(FontAwesomeIcon)`
-  ${mediaQuery.tablet(`
+  ${mediaQuery.tablet`
     font-size: 24px;
-  `)}
+  `}
 `;
 
 
 const LinkTitle = styled.span`
   margin-left: ${smSpacing};
-  ${mediaQuery.tablet(`
+  ${mediaQuery.tablet`
     display: none;    
-  `)}
+  `}
 `;
 
 const LogoContainer = styled.div`
@@ -94,11 +95,11 @@ const LogoContainer = styled.div`
 `;
 
 const Logo = styled(Disapproval)`
-  fill: ${lightBlue};
+  fill: ${props => props.theme && props.theme.sidebarLogo};
   width: 80px;
-  ${mediaQuery.tablet(`
+  ${mediaQuery.tablet`
     width: 40px;
-  `)}
+  `}
 `;
 
 const Sidebar = ({
@@ -106,26 +107,15 @@ const Sidebar = ({
   children,
   links,
 }) => {
-  useEffect(() => {
-    gsap.from('.disapprovalLogo', {
-      duration: 10,
-      ease: 'power2.inOut',
-      yoyo: true,
-      repeat: -1,
-      css: {
-        fill: blue,
-      }
-    });
-  }, [])
   return (
     <StyledSidebar collapsed={collapsed}>
       <LogoContainer>
-        <Link href="/"><Logo className="disapprovalLogo" /></Link>
+        <Link href="/"><Logo /></Link>
       </LogoContainer>
       <ul>
         {links.map(link => (
           <LinkContainer key={`link-${link.title}`}>
-            <Link href={link.href}>
+            <Link href={link.href} onClick={link.onClick}>
               {link.icon ? (
                 <LinkIcon
                   icon={link.icon}

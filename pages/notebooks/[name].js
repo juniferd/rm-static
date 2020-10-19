@@ -34,7 +34,7 @@ const SelectedImage = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  background: white;
+  background: ${props => props.theme && props.theme.notebookPageBackground};
   width: calc(100vw / 3);
   max-width: 300px;
   box-shadow: 0 0 12px rgba(204, 143, 0, .1);
@@ -45,10 +45,10 @@ const ImageContainer = styled.div`
     display: block;
     width: 100%;
   }
-  ${mediaQuery.tablet(`
+  ${mediaQuery.tablet`
     max-width: 100%;
     width: 100%;
-  `)}
+  `}
 `;
 
 const Section = styled.div`
