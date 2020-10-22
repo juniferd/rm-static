@@ -1,8 +1,7 @@
 import { css } from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components';
 import Link from '../Link';
-import Disapproval from '../../public/images/disapproval.svg';
+import RmLogo from '../../public/images/icons/rmLogo.svg';
 import {
   collapsedSidebarWidth,
   expandedSidebarWidth,
@@ -55,12 +54,21 @@ const LinkContainer = styled.li`
     color: ${props => props.theme && props.theme.sidebarLink};
     &:active {
       color: ${props => props.theme && props.theme.sidebarLinkActive};
+      svg {
+        fill: ${props => props.theme && props.theme.sidebarLinkActive};
+      }
     }
     &:visited {
       color: ${props => props.theme && props.theme.sidebarLinkVisited};
+      svg {
+        fill: ${props => props.theme && props.theme.sidebarLinkVisited};
+      }
     }
     &:hover {
       color: ${props => props.theme && props.theme.sidebarLinkHover};
+      svg {
+        fill: ${props => props.theme && props.theme.sidebarLinkHover};
+      }
     }
     ${mediaQuery.tablet`${LinkContainerTablet}`}
   }
@@ -74,13 +82,6 @@ const LinkContainer = styled.li`
   `}
 `;
 
-const LinkIcon = styled(FontAwesomeIcon)`
-  ${mediaQuery.tablet`
-    font-size: 24px;
-  `}
-`;
-
-
 const LinkTitle = styled.span`
   margin-left: ${smSpacing};
   ${mediaQuery.tablet`
@@ -92,14 +93,26 @@ const LogoContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 0;
 `;
 
-const Logo = styled(Disapproval)`
+const Logo = styled(RmLogo)`
   fill: ${props => props.theme && props.theme.sidebarLogo};
-  width: 80px;
+  width: 50px;
   ${mediaQuery.tablet`
     width: 40px;
   `}
+`;
+const SvgContainer = styled.div`
+  > svg {
+    fill: ${props => props.theme && props.theme.sidebarLink};
+    width: 32px;
+    height: 32px;
+    ${mediaQuery.tablet`
+      width: 40px;
+      height: 40px;
+    `}
+  }
 `;
 
 const Sidebar = ({
@@ -113,13 +126,13 @@ const Sidebar = ({
         <Link href="/"><Logo /></Link>
       </LogoContainer>
       <ul>
-        {links.map(link => (
+        {links.map(({ Component, ...link }) => (
           <LinkContainer key={`link-${link.title}`}>
             <Link href={link.href} onClick={link.onClick}>
-              {link.icon ? (
-                <LinkIcon
-                  icon={link.icon}
-                />
+              {Component ? (
+                <SvgContainer>
+                  <Component />
+                </SvgContainer>
               ) : null}
               <LinkTitle>{link.title}</LinkTitle>
             </Link>

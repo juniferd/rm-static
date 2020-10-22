@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import { faBookDead, faInfoCircle, faTint } from '@fortawesome/free-solid-svg-icons'
+import RmNotebook from '../public/images/icons/rmNotebook.svg';
+import RmInfo from '../public/images/icons/rmInfo.svg';
+import RmPaintBucket from '../public/images/icons/rmPaintBucket.svg';
 import { Main } from '../components/Container';
 import Sidebar from '../components/Sidebar';
 import { pastelTheme, grayTheme, defaultTheme } from '../components/colors';
@@ -39,9 +41,9 @@ function MyApp({ Component, pageProps }) {
   }
 
   const links = [
-    { title: 'notebooks', href: '/notebooks', icon: faBookDead },
-    { title: 'about', href: '/about', icon: faInfoCircle },
-    { title: 're-skin', onClick: setRandomTheme, icon: faTint }
+    { title: 'notebooks', href: '/notebooks', Component: RmNotebook },
+    { title: 'about', href: '/about', Component: RmInfo },
+    { title: 're-skin', onClick: setRandomTheme, Component: RmPaintBucket }
   ];
 
   return (

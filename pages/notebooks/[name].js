@@ -41,6 +41,9 @@ const ImageContainer = styled.div`
   position: relative;
   height: auto;
   margin: 0 ${smSpacing} ${lgSpacing};
+  &:hover {
+    cursor: pointer;
+  }
   > img {
     display: block;
     width: 100%;
