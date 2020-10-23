@@ -11,6 +11,10 @@ import {
 } from '../constants';
 import { mediaQuery } from '../mediaQueries';
 
+const getSelectedColor = ({ selected, defaultColor, selectedColor }) => (
+  selected ? selectedColor : defaultColor
+);
+
 const StyledSidebar = styled.div`
   z-index: 1;
   display: flex;
@@ -31,12 +35,17 @@ const StyledSidebar = styled.div`
   `}
 `;
 
-const LinkContainerTablet = css`
+const LinkTablet = css`
   justify-content: center;
-  background: ${props => props.theme && props.theme.sidebarLinkBackground};
+  background: ${props => getSelectedColor({
+    selected: props.selected,
+    defaultColor: props.theme?.sidebarLinkBackground,
+    selectedColor: props.theme?.sidebarLinkBackgroundHover,
+  })};
   height: 60px;
   margin: 0;
   padding: ${lgSpacing};
+  border: none;
   &:hover {
     background: ${props => props.theme && props.theme.sidebarLinkBackgroundHover};
   }
@@ -45,32 +54,65 @@ const LinkContainerTablet = css`
 const LinkContainer = styled.li`
   list-style: none;
   padding: 0;
-  margin: 0 ${smSpacing} ${mdSpacing};
-  > * {
+  margin: 0 ${smSpacing} ${mdSpacing} 0;
+  > a {
     display: flex;
+    padding-left: ${smSpacing};
     align-items: center;
     text-decoration: none;
     font-size: 16px;
-    color: ${props => props.theme && props.theme.sidebarLink};
+    color: ${props => getSelectedColor({
+      selected: props.selected,
+      selectedColor: props.theme?.sidebarLinkHover,
+      defaultColor: props.theme?.sidebarLink,
+    })};
+    border-left: 5px solid ${props => getSelectedColor({
+      selected: props.selected,
+      selectedColor: props.theme?.sidebarLogo,
+      defaultColor: 'transparent',
+    })};
+    svg {
+      fill: ${props => getSelectedColor({
+        selected: props.selected,
+        selectedColor: props.theme?.sidebarLinkHover,
+        defaultColor: props.theme?.sidebarLink,
+      })};
+    }
     &:active {
-      color: ${props => props.theme && props.theme.sidebarLinkActive};
+      color: ${props => getSelectedColor({
+        selected: props.selected,
+        selectedColor: props.theme?.sidebarLinkHover,
+        defaultColor: props.theme?.sidebarLinkActive,
+      })};
       svg {
-        fill: ${props => props.theme && props.theme.sidebarLinkActive};
+        fill: ${props => getSelectedColor({
+          selected: props.selected,
+          selectedColor: props.theme?.sidebarLinkHover,
+          defaultColor: props.theme?.sidebarLinkActive,
+        })};
       }
     }
     &:visited {
-      color: ${props => props.theme && props.theme.sidebarLinkVisited};
+      color: ${props => getSelectedColor({
+        selected: props.selected,
+        selectedColor: props.theme?.sidebarLinkHover,
+        defaultColor: props.theme?.sidebarLinkVisited,
+      })};
       svg {
-        fill: ${props => props.theme && props.theme.sidebarLinkVisited};
+        fill: ${props => getSelectedColor({
+          selected: props.selected,
+          selectedColor: props.theme?.sidebarLinkHover,
+          defaultColor: props.theme?.sidebarLinkVisited,
+        })};
       }
     }
     &:hover {
       color: ${props => props.theme && props.theme.sidebarLinkHover};
       svg {
-        fill: ${props => props.theme && props.theme.sidebarLinkHover};
+        fill: ${props => props.theme?.sidebarLinkHover};
       }
     }
-    ${mediaQuery.tablet`${LinkContainerTablet}`}
+    ${mediaQuery.tablet`${LinkTablet}`}
   }
 
   ${mediaQuery.tablet`
@@ -105,7 +147,12 @@ const Logo = styled(RmLogo)`
 `;
 const SvgContainer = styled.div`
   > svg {
-    fill: ${props => props.theme && props.theme.sidebarLink};
+    fill: ${props => {
+      if (props.selected) {
+        return props.theme && props.theme.sidebarLinkHover;
+      }
+      return props.theme && props.theme.sidebarLink
+    }};
     width: 32px;
     height: 32px;
     ${mediaQuery.tablet`
@@ -119,6 +166,7 @@ const Sidebar = ({
   collapsed,
   children,
   links,
+  currentPage,
 }) => {
   return (
     <StyledSidebar collapsed={collapsed}>
@@ -127,7 +175,7 @@ const Sidebar = ({
       </LogoContainer>
       <ul>
         {links.map(({ Component, ...link }) => (
-          <LinkContainer key={`link-${link.title}`}>
+          <LinkContainer key={`link-${link.title}`} selected={currentPage.toLowerCase() === link.title.toLowerCase()}>
             <Link href={link.href} onClick={link.onClick}>
               {Component ? (
                 <SvgContainer>

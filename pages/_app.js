@@ -23,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, router }) {
   const themes = {
     defaultTheme,
     grayTheme,
@@ -46,10 +46,12 @@ function MyApp({ Component, pageProps }) {
     { title: 're-skin', onClick: setRandomTheme, Component: RmPaintBucket }
   ];
 
+  const currentPage = router.pathname.split('/')[1] || '/';
+
   return (
     <ThemeProvider theme={themes[currentTheme]}>
       <GlobalStyle />
-      <Sidebar links={links} />
+      <Sidebar links={links} currentPage={currentPage} />
       <Main collapsedSidebar={false}>
         <Component {...pageProps} />
       </Main>
