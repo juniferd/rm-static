@@ -5,6 +5,7 @@ import path from 'path';
 import gsap from 'gsap';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import Link from '../../components/Link';
 import { NOTEBOOKS_DIR, getNotebookDirs} from '../../helpers';
 import { smSpacing, lgSpacing } from '../../components/constants';
@@ -101,8 +102,13 @@ const Notebook = ({ content }) => {
 
   return (
     <>
-      <h1>{name}</h1>
-      <p><Link href="/notebooks">&larr;</Link></p>
+      <Breadcrumbs
+        breadcrumbs={[
+          { link: '/', text: 'home' },
+          { link: '/notebooks', text: 'notebooks' },
+          { text: name },
+        ]}
+      />
       <Section>
         {content[decodeURIComponent(name)].map(img => (
           <ImageContainer
