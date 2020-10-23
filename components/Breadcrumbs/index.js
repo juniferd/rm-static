@@ -3,7 +3,8 @@ import { smSpacing, lgSpacing } from '../constants';
 import Link from '../Link';
 
 const BreadcrumbContainer = styled.ul`
-  display: inline;
+  display: flex;
+  flex-flow: wrap;
   padding: ${lgSpacing} 0 ${lgSpacing};
   margin: 0 0 ${lgSpacing};
   list-style: none;
@@ -23,6 +24,10 @@ const Crumb = styled.li`
   }
   > a {
     text-decoration: none;
+    font-weight: 400;
+  }
+  > span {
+    font-weight: 500;
   }
 `;
 
@@ -32,7 +37,7 @@ const Breadcrumbs = ({
   return (
     <BreadcrumbContainer>
       {breadcrumbs.map(breadcrumb => (
-        <Crumb>
+        <Crumb key={`breadcrumb-${breadcrumb.text}`}>
           {breadcrumb.link ? (
             <Link href={breadcrumb.link}>{breadcrumb.text}</Link>
           ) : (
